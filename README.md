@@ -39,6 +39,12 @@ $ curl -H 'Content-Type:application/json' -X POST -d 'mutation{updateUser(id:"dd
 # => {"data":{"updateUser":{"email":"update-user01@gmail.com","id":"dd4b37c7-4471-4edb-8839-d9d18aa389c6","name":"user01"}}}
 ```
 
+```
+# Delete user by id
+$ curl -H 'Content-Type:application/json' -X POST -d 'mutation{deleteUser(id:"9af5fc2e-e800-4664-8bc9-6c093d8e475c"){id, name, email}}' 'http://localhost:3000/graphql'
+# => {"data":{"deleteUser":{"email":"user02@gmail.com","id":"9af5fc2e-e800-4664-8bc9-6c093d8e475c","name":"user02"}}}
+```
+
 - Case 2
 ```
 # Get user list
@@ -62,4 +68,10 @@ http://localhost:3000/graphql?query={user(id:"759c4add-5984-4ace-8824-5a16b5add1
 # Update user by id
 http://localhost:3000/graphql?query=mutation+_{updateUser(id:"2e28ff46-36ab-4c25-9a70-4aa2d10747ce",email:"update-user01@gmail.com"){id,name,email}}
 # => {"data":{"updateUser":{"email":"update-user01@gmail.com","id":"2e28ff46-36ab-4c25-9a70-4aa2d10747ce","name":"user01"}}}
+```
+
+```
+# Delete user by id
+http://localhost:3000/graphql?query=mutation+_{deleteUser(id:"9af5fc2e-e800-4664-8bc9-6c093d8e475c"){id,name,email}}
+# => {"data":{"deleteUser":{"email":"user02@gmail.com","id":"9af5fc2e-e800-4664-8bc9-6c093d8e475c","name":"user02"}}}
 ```
