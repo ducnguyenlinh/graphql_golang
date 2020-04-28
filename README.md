@@ -27,6 +27,12 @@ $ curl -H 'Content-Type:application/json' -X POST -d 'mutation{createUser(userNa
 # => {"data":{"createUser":{"email":"user04@gmail.com","userId":"4212d3a2-a434-4e29-a313-c1b5232691a1","userName":"user04"}}}
 ```
 
+```
+# Find user by id
+$ curl -H 'Content-Type:application/json' -X POST -d '{user(id:"849b9ad1-847d-48b6-98e9-169b51fbb4c3"){userId, userName, email}}' 'http://localhost:3000/graphql'
+# => {"data":{"user":{"email":"user02@gmail.com","userId":"849b9ad1-847d-48b6-98e9-169b51fbb4c3","userName":"user02"}}}
+```
+
 - Case 2
 ```
 # Get user list
@@ -38,4 +44,10 @@ http://localhost:3000/graphql?query={userList{userId,userName,email}}
 # Create new user
 http://localhost:3000/graphql?query=mutation+_{createUser(userName:%22user04%22,email:%22user04@gmail.com%22){userId,userName,email}}
 # => {"data":{"createUser":{"email":"user04@gmail.com","userId":"4212d3a2-a434-4e29-a313-c1b5232691a1","userName":"user04"}}}
+```
+
+```
+# Find user by id
+http://localhost:3000/graphql?query={user(id:"759c4add-5984-4ace-8824-5a16b5add106"){userId,userName,email}}
+# => {"data":{"user":{"email":"user02@gmail.com","userId":"759c4add-5984-4ace-8824-5a16b5add106","userName":"user02"}}}
 ```

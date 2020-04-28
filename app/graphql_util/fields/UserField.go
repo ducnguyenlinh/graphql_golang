@@ -1,6 +1,7 @@
 package fields
 
 import (
+	"errors"
 	"github.com/ducnguyenlinh/graphql_golang/app/graphql_util/types"
 	"github.com/ducnguyenlinh/graphql_golang/app/model"
 	"github.com/google/uuid"
@@ -31,6 +32,30 @@ var UserListField = &graphql.Field{
 	Description: "Get user list",
 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 		return users, nil
+	},
+}
+
+// Find user by id
+var UserField = &graphql.Field{
+	Type:              types.UserType,
+	Description:       "Get product by id",
+	Args:              graphql.FieldConfigArgument{
+		"id": &graphql.ArgumentConfig{
+			Type:         graphql.String,
+		},
+	},
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		id, ok := params.Args["id"]
+		if ok {
+			// Find user
+			for _, user := range users{
+				if user.UserId == id {
+					return user, nil
+				}
+			}
+		}
+
+		return nil, errors.New("user not found")
 	},
 }
 
