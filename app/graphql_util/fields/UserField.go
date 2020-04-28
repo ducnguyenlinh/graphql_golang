@@ -88,7 +88,7 @@ var CreateUserField = &graphql.Field{
 // Update user by id
 var UpdateUserField = &graphql.Field{
 	Type:			types.UserType,
-	Description:	"Update product by id",
+	Description:	"Update user by id",
 	Args:			graphql.FieldConfigArgument{
 		"id": &graphql.ArgumentConfig{
 			Type: graphql.NewNonNull(graphql.String),
@@ -118,6 +118,30 @@ var UpdateUserField = &graphql.Field{
 				break
 			}
 		}
+		return user, nil
+	},
+}
+
+// Delete user by id
+var DeleteUserField = &graphql.Field{
+	Type:			types.UserType,
+	Description:	"Delete user by id",
+	Args:			graphql.FieldConfigArgument{
+		"id": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+	},
+	Resolve:		func(params graphql.ResolveParams) (interface{}, error) {
+		params_id, _ := params.Args["id"].(string)
+		user := model.User{}
+		for i, u := range users {
+			if u.ID == params_id {
+				user = users[i]
+				// Remove from user list
+				users = append(users[:i], users[i+1:]...)
+			}
+		}
+
 		return user, nil
 	},
 }
