@@ -10,46 +10,46 @@ import (
 
 var users = []model.User{
 	{
-		UserId:		uuid.New().String(),
-		UserName:	"user01",
-		Email:		"user01@gmail.com",
+		ID:		uuid.New().String(),
+		Name:	"user01",
+		Email:	"user01@gmail.com",
 	},
 	{
-		UserId:		uuid.New().String(),
-		UserName:	"user02",
-		Email:		"user02@gmail.com",
+		ID:		uuid.New().String(),
+		Name:	"user02",
+		Email:	"user02@gmail.com",
 	},
 	{
-		UserId:		uuid.New().String(),
-		UserName:	"user03",
-		Email:		"user03@gmail.com",
+		ID:		uuid.New().String(),
+		Name:	"user03",
+		Email:	"user03@gmail.com",
 	},
 }
 
 // Get user list
 var UserListField = &graphql.Field{
-	Type:        graphql.NewList(types.UserType),
-	Description: "Get user list",
-	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+	Type:			graphql.NewList(types.UserType),
+	Description:	"Get user list",
+	Resolve:		func(p graphql.ResolveParams) (interface{}, error) {
 		return users, nil
 	},
 }
 
 // Find user by id
 var UserField = &graphql.Field{
-	Type:              types.UserType,
-	Description:       "Get product by id",
-	Args:              graphql.FieldConfigArgument{
+	Type:			types.UserType,
+	Description:	"Get product by id",
+	Args:			graphql.FieldConfigArgument{
 		"id": &graphql.ArgumentConfig{
-			Type:         graphql.String,
+			Type:	graphql.String,
 		},
 	},
-	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
-		id, ok := params.Args["id"]
+	Resolve:		func(params graphql.ResolveParams) (interface{}, error) {
+		params_id, ok := params.Args["id"]
 		if ok {
 			// Find user
-			for _, user := range users{
-				if user.UserId == id {
+			for _, user := range users {
+				if user.ID == params_id {
 					return user, nil
 				}
 			}
@@ -61,10 +61,10 @@ var UserField = &graphql.Field{
 
 // Create user
 var CreateUserField = &graphql.Field{
-	Type:        types.UserType,
-	Description: "Create new user",
-	Args: graphql.FieldConfigArgument{
-		"userName": &graphql.ArgumentConfig{
+	Type:			types.UserType,
+	Description:	"Create new user",
+	Args:			graphql.FieldConfigArgument{
+		"name": &graphql.ArgumentConfig{
 			Type: graphql.NewNonNull(graphql.String),
 		},
 		"email": &graphql.ArgumentConfig{
@@ -72,10 +72,10 @@ var CreateUserField = &graphql.Field{
 		},
 	},
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
-		userName, _ := params.Args["userName"].(string)
+		name, _ := params.Args["name"].(string)
 		email, _ := params.Args["email"].(string)
 
-		newUser, err := model.NewUser(userName, email)
+		newUser, err := model.NewUser(name, email)
 		if err != nil {
 			panic(err)
 		}

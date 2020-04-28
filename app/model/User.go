@@ -6,15 +6,15 @@ import (
 )
 
 type User struct {
-	UserId		string `json:"userId"`
-	UserName	string `json:"userName"`
-	Email       string `json:"email"`
+	ID		string `json:"id"`
+	Name	string `json:"name"`
+	Email	string `json:"email"`
 }
 
 // constructor
-func NewUser(userName string, email string) (User, error) {
+func NewUser(name string, email string) (User, error) {
 	// validate
-	if userName == "" {
+	if name == "" {
 		return User{"", "", ""}, errors.New("userName is empty")
 	}
 	if email == "" {
@@ -22,8 +22,8 @@ func NewUser(userName string, email string) (User, error) {
 	}
 
 	return User{
-		UserId:      uuid.New().String(),
-		UserName:    userName,
-		Email:       email,
+		ID:		uuid.New().String(),
+		Name:	name,
+		Email:	email,
 	}, nil
 }
