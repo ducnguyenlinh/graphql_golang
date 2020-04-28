@@ -84,3 +84,40 @@ var CreateUserField = &graphql.Field{
 		return newUser, nil
 	},
 }
+
+// Update user by id
+var UpdateUserField = &graphql.Field{
+	Type:			types.UserType,
+	Description:	"Update product by id",
+	Args:			graphql.FieldConfigArgument{
+		"id": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"name": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+		"email": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+	},
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		params_id, _ := params.Args["id"].(string)
+		params_name, nameOk := params.Args["name"].(string)
+		params_email, emailOk := params.Args["email"].(string)
+
+		user := model.User{}
+		for i, u := range users {
+			if u.ID == params_id {
+				if nameOk {
+					users[i].Name = params_name
+				}
+				if emailOk {
+					users[i].Email = params_email
+				}
+				user = users[i]
+				break
+			}
+		}
+		return user, nil
+	},
+}
